@@ -1,0 +1,15 @@
+[submodule "external/pugixml"]
+	path = external/pugixml
+	url = https://github.com/zeux/pugixml
+[submodule "external/pngimg"]
+	path = external/pngimg
+	url = https://github.com/Arnache/PNGImg
+[submodule "external/avir"]
+	path = external/avir
+	url = https://github.com/avaneev/avir
+[submodule "external/raylib"]
+	path = external/raylib
+	url = https://github.com/raysan5/raylib
+[submodule "external/raygui"]
+	path = external/raygui
+	url = https://github.com/raysan5/raygui
