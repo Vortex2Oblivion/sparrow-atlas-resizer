@@ -29,7 +29,7 @@ int main() {
 
 	const Vector2 cameraTarget = Vector2Zero();
 
-	auto camSpritesheet = (Camera2D){.offset = Vector2Zero(), .target = cameraTarget, .rotation = 0.0f, .zoom = 1.0f};
+	auto camSpritesheet = Camera2D{.offset = Vector2Zero(), .target = cameraTarget, .rotation = 0.0f, .zoom = 1.0f};
 
 	float scale = 1.0f;
 
@@ -53,7 +53,7 @@ int main() {
 
 					spritesheet = LoadTexture(fileName.c_str());
 					SetTextureFilter(spritesheet, TEXTURE_FILTER_BILINEAR);
-					imageDimensions = (Rectangle){.x = 0, .y = 0, .width = static_cast<float>(spritesheet.width), .height = static_cast<float>(spritesheet.height)};
+					imageDimensions = Rectangle{.x = 0, .y = 0, .width = static_cast<float>(spritesheet.width), .height = static_cast<float>(spritesheet.height)};
 
 					const pugi::xml_parse_result result = doc.load_file(fileName.replace(fileName.length() - 3, 3, "xml").c_str());
 
@@ -70,7 +70,7 @@ int main() {
 						const float width = frame.attribute("width").as_float();
 						const float height = frame.attribute("height").as_float();
 
-						frameRects.push_back((Rectangle){.x = x, .y = y, .width = width, .height = height});
+						frameRects.push_back(Rectangle{.x = x, .y = y, .width = width, .height = height});
 					}
 				}
 			}
@@ -93,7 +93,7 @@ int main() {
 		}
 		else {
 		BeginMode2D(camSpritesheet);
-			DrawTexturePro(spritesheet, imageDimensions, (Rectangle){
+			DrawTexturePro(spritesheet, imageDimensions, Rectangle{
 							   .x = 0, .y = 0, .width = imageDimensions.width,
 							   .height = imageDimensions.height
 						   }, Vector2Zero(), 0.0f, ColorAlpha(WHITE, 0.5));
@@ -103,13 +103,13 @@ int main() {
 				DrawRectanglePro(rect, Vector2Zero(), 0.0, ColorAlpha(BLUE, 0.05));
 			}
 
-			DrawTexturePro(spritesheet, imageDimensions, (Rectangle){
+			DrawTexturePro(spritesheet, imageDimensions, Rectangle{
 				   .x = 0, .y = 0, .width = imageDimensions.width * scale,
 				   .height = imageDimensions.height * scale
 			   }, Vector2Zero(), 0.0f, WHITE);
 			DrawRectangleLines(0, 0, static_cast<int>(imageDimensions.width * scale), static_cast<int>(imageDimensions.height * scale), GREEN);
 			for (const auto [x, y, width, height] : frameRects) {
-				DrawRectanglePro((Rectangle){.x = x * scale, .y = y * scale, .width = width * scale, .height = height * scale}, Vector2Zero(), 0.0, ColorAlpha(BLUE, 0.1));
+				DrawRectanglePro(Rectangle{.x = x * scale, .y = y * scale, .width = width * scale, .height = height * scale}, Vector2Zero(), 0.0, ColorAlpha(BLUE, 0.1));
 			}
 		EndMode2D();
 
@@ -117,11 +117,11 @@ int main() {
 
 
 		DrawText(TextFormat("Scale: %.02lf", scale), 1000, 12, 32, BLACK);
-		GuiSlider((Rectangle){.x = 1000, .y = 50, .width = 250, .height = 25}, TextFormat("%0.1lf", minScale), TextFormat("%0.1lf", maxScale), &scale, minScale, maxScale);
+		GuiSlider(Rectangle{.x = 1000, .y = 50, .width = 250, .height = 25}, TextFormat("%0.1lf", minScale), TextFormat("%0.1lf", maxScale), &scale, minScale, maxScale);
 
 		DrawText(TextFormat("Camera Zoom: %.01lf (mouse wheel)", camSpritesheet.zoom), 900, 690, 24, BLACK);
 
-		if (GuiButton((Rectangle){.x = 1000, .y = 100, .width = 250, .height = 25}, "SAVE")) {
+		if (GuiButton(Rectangle{.x = 1000, .y = 100, .width = 250, .height = 25}, "SAVE")) {
 			Image output = LoadImageFromTexture(spritesheet);
 			ImageResize(&output, static_cast<int>(std::round(static_cast<float>(output.width) * scale)), static_cast<int>(std::round(static_cast<float>(output.height) * scale)));
 
