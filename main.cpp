@@ -116,14 +116,14 @@ int main() {
 		}
 
 
-		DrawText(TextFormat("Scale: %.02lf", scale), 1000, 12, 32, BLACK);
+		DrawText(TextFormat("Scale: %.03lf", scale), 1000, 12, 32, BLACK);
 		GuiSlider(Rectangle{.x = 1000, .y = 50, .width = 250, .height = 25}, TextFormat("%0.1lf", minScale), TextFormat("%0.1lf", maxScale), &scale, minScale, maxScale);
 
 		DrawText(TextFormat("Camera Zoom: %.01lf (mouse wheel)", camSpritesheet.zoom), 900, 690, 24, BLACK);
 
 		if (GuiButton(Rectangle{.x = 1000, .y = 100, .width = 250, .height = 25}, "SAVE")) {
 			Image output = LoadImageFromTexture(spritesheet);
-			ImageResize(&output, static_cast<int>(std::round(static_cast<float>(output.width) * scale)), static_cast<int>(std::round(static_cast<float>(output.height) * scale)));
+			ImageResize(&output, static_cast<int>(std::round(static_cast<float>(output.width) * scale)), static_cast<int>((static_cast<float>(output.height) * scale)));
 
 			if (!ExportImage(output, "output.png")) {
 				TraceLog(LOG_ERROR, "Failed to save PNG file.");
@@ -132,8 +132,8 @@ int main() {
 			const float imageWidth = doc.child("TextureAtlas").attribute("width").as_float();
 			const float imageHeight = doc.child("TextureAtlas").attribute("height").as_float();
 
-			doc.child("TextureAtlas").attribute("width").set_value(std::round(imageWidth * scale));
-			doc.child("TextureAtlas").attribute("height").set_value(std::round(imageHeight * scale));
+			doc.child("TextureAtlas").attribute("width").set_value((imageWidth * scale));
+			doc.child("TextureAtlas").attribute("height").set_value((imageHeight * scale));
 
 			for (auto frame : doc.child("TextureAtlas").children("SubTexture")) {
 				const float x = frame.attribute("x").as_float();
@@ -146,15 +146,15 @@ int main() {
 				const float frameWidth = frame.attribute("frameWidth").as_float();
 				const float frameHeight = frame.attribute("frameHeight").as_float();
 
-				frame.attribute("x").set_value(std::round(x * scale));
-				frame.attribute("y").set_value(std::round(y * scale));
-				frame.attribute("width").set_value(std::round(width * scale));
-				frame.attribute("height").set_value(std::round(height * scale));
+				frame.attribute("x").set_value((x * scale));
+				frame.attribute("y").set_value((y * scale));
+				frame.attribute("width").set_value((width * scale));
+				frame.attribute("height").set_value((height * scale));
 
-				frame.attribute("frameX").set_value(std::round(frameX * scale));
-				frame.attribute("frameY").set_value(std::round(frameY * scale));
-				frame.attribute("frameWidth").set_value(std::round(frameWidth * scale));
-				frame.attribute("frameHeight").set_value(std::round(frameHeight * scale));
+				frame.attribute("frameX").set_value((frameX * scale));
+				frame.attribute("frameY").set_value((frameY * scale));
+				frame.attribute("frameWidth").set_value((frameWidth * scale));
+				frame.attribute("frameHeight").set_value((frameHeight * scale));
 			}
 
 			if (!doc.save_file("output.xml")) {
